@@ -1,0 +1,10 @@
+with src as (
+  select * from RAW.PUBLIC.olist_order_payments_dataset
+)
+select
+  order_id,
+  payment_sequential,
+  payment_type,
+  payment_installments,
+  payment_value::float as payment_value
+from src

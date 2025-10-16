@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: fact_orders
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [order_id, order_item_id]
+
+    columns:
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+
+      - name: product_id
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+
+      - name: seller_id
+        tests:
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_id
+
+      - name: revenue
+        tests:
+          - not_null
+          # - expression_is_true:
+              # expression: "revenue >= 0"
+
+  - name: dim_products
+    columns:
+      - name: product_category
+        tests:
+          - not_null
